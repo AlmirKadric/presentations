@@ -16,7 +16,6 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-	background:url("images/raiders_warehouse.jpg");
 	background-position:center;
 	background-size: 100%;
 	background-color: white;
@@ -73,18 +72,6 @@ html.intro header {
 	display: none;
 }
 
-
-/*********************************************
- * FOOTER
- *********************************************/
- 
-footer.controls p {
-	margin: 0 0 20px 0;
-	color: red;
-	letter-spacing: 0.02em;
-	font-size: 24px;
-	font-weight:bold;
-}
 
 
 /*********************************************
@@ -154,12 +141,66 @@ footer.controls p {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 }
 
+
+
+/*********************************************
+ * CONFIDENTIAL FOOTER
+ *********************************************/
+ 
+footer.confidential p {
+	margin: 0 0 20px 0;
+	color: red;
+	letter-spacing: 0.02em;
+	font-size: 24px;
+	font-weight:bold;
+}
+
+
+.reveal .confidential div {
+	display: block;
+}
+
+.reveal .confidential {
+	position: fixed;
+	width: 170px;
+	height: 85px;
+	z-index: 30;
+	right: 10px;
+	bottom: 10px;
+}
+
+.reveal .confidential div {
+	position: absolute;
+	opacity: 0.1;
+	width: 0; 
+	height: 0; 
+	border: 12px solid transparent;
+
+	-webkit-transition: opacity 0.2s ease;
+	   -moz-transition: opacity 0.2s ease;
+	    -ms-transition: opacity 0.2s ease;
+	     -o-transition: opacity 0.2s ease;
+	        transition: opacity 0.2s ease;
+}
+
+.reveal .confidential div.enabled {
+	opacity: 0.6;
+	cursor: pointer;
+}
+
+.reveal .confidential div.enabled:active {
+	margin-top: 1px;
+}
+
+
+
+
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls div {
-	 display: none;
-}
+
+
+
  /*
 .reveal .controls div.navigate-left,
 .reveal .controls div.navigate-left.enabled {
