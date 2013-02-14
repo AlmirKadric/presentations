@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>[Title here]</title>
+		<title>GamePad2</title>
 
-		<meta name="description" content="[Description here]">
-		<meta name="author" content="[Author here]">
+		<meta name="description" content="A breif introduction to GamePad2">
+		<meta name="author" content="Almir Kadric">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -39,81 +39,107 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+					# GamePad2
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+				<section>
+					<h2>What is it</h2>
+
+					<p class="fragment">GamePad2 is an in house developed production deployment tool</p>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+				<section>
+					<section data-markdown>
+						## But why do we need it?
+					</section>
+					<section>
+						<h2>The Problems</h2>
+
+						<ol>
+							<li class="fragment">We have no way to check if problems arise in production before showing it to our consumers.</li>
+							<li class="fragment">There has always been a slight downtime (~1-5m) when pushing as we have had to wait for processes to restart.</li>
+							<li class="fragment">Even when performing a rolling restart there is still a chance the load balancer will forward a request to a stopped machine.</li>
+							<li class="fragment">Rollbacks have proved to be a hassle in the past and usually don't work.</li>
+							<li class="fragment">The way we used git would cause a plethora of issues, which would cause bad / inconsistent code pushing.</li>
+							<li class="fragment">Lack of error detection would cause us to down a machine when doing a bad push, i.e. missing config etc.</li>
+							<li class="fragment">Lack of accessibility to team leaders and project managers.</li>
+							<li class="fragment">... And the list goes on ...</li>
+						</ol>
+					</section>
+					<section>
+						<h2>So why do we need it:</h2>
+
+						<ol>
+							<li class="fragment">Ensure true zero downtime deployment.</li>
+							<li class="fragment">Ensure we can't perform a bad push.</li>
+							<li class="fragment">Ensure we can actually check the deployment as it is on production before our consumers do.</li>
+							<li class="fragment">Ensure we have a means to rollback quickly and easily.</li>
+							<li class="fragment">A means to provide access to team leaders and project managers.</li>
+							<li class="fragment">Ability to test a few possible versions with subsets of players, and test the waters before hard launching.</li>
+						</ol>
+					</section>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+				<section>
+					<section data-markdown>
+						## How do we achieve this?
+					</section>
+					<section>
+						<h2>Push first, publish later</h2>
+
+						<p class="fragment" style="text-align: left">Let's have the process up before we even perform the publication.</p>
+						<p class="fragment" style="text-align: left">Also let's check this candidate first, then we can swap it in once we're satisfied.</p>
+					</section>
+					<section>
+						<h2>Ok how do we do this?</h2>
+						<h2>(Without downtime)</h2>
+
+						<p class="fragment" style="text-align: left">Let's Leverage File System Atomicity</p>
+						<p class="fragment" style="text-align: left">So we can use symlinks right?</p>
+						<p class="fragment" style="text-align: left">Damn, symlink updates aren't actually atomic &nbsp;&nbsp;&nbsp; =_=</p>
+						<p class="fragment" style="text-align: left">Wait a <i>'mv -T'</i> is atomic...</p>
+						<p class="fragment" style="text-align: left">Let's create a tmplink and <i>'mv -T'</i> it into place &nbsp;&nbsp;&nbsp; \ o /</p>
+					</section>
+					<section>
+						<h2>Fine, how do we access this?</h2>
+						<h2>(Before our consumers do)</h2>
+
+						<p class="fragment" style="text-align: left">X-Version Headers</p>
+						<p class="fragment" style="text-align: left">What do you mean?</p>
+						<p class="fragment" style="text-align: left">By providing the X-Version header with your request, you will look at that version folder instead of the current one</p>
+						<p class="fragment" style="text-align: left">That sounds tricky?</p>
+						<p class="fragment" style="text-align: left">We've actually put in place a proxy which will inject this header for you. So you really don't need to do anything for general use cases.</p>
+					</section>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+				<section>
+					<h2>What we expect from you</h2>
+					<h2>(Developers)</h2>
+
+					<ol>
+						<li class="fragment">Tag all releases properly, GamePad2 will only work with tags</li>
+						<li class="fragment">Do not perform destructive data migrations, i.e. pushing of x.y.z version means we can't rollback</li>
+						<li class="fragment">Make game data versionable, i.e. make them JSON files and put them in the repository</li>
+					</ol>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+				<section>
+					<h2>When cant we start to use it</h2>
+
+					<ul>
+						<li class="fragment">Currently initial release is complete, and we are integrating it into Moria</li>
+						<li class="fragment">Next step would be to enable end user login and GamePad2 shell access</li>
+                                                <li class="fragment">We plan on writing up a WebUI some time in the future</li>
+						<li class="fragment">We will begin Jenkins integration once process is field tested</li>
+					</ul>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+				<section>
+					<a href="http://almirkadric.github.com/reveal.js">http://almirkadric.github.com/reveal.js</a>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# GamePad2
-					</script>
+				<section>
+					<a href="index.html">Index</a>
 				</section>
 			</div>
 
