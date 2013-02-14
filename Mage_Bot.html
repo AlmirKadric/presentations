@@ -205,11 +205,13 @@
 								// RETURN TRUE OR FALSE
 							}, cb);
 					</section>
-					<section data-markdown>
-						### PhantomJS Loader
-							curl http://HOST:PORT/app/bot/phantom | gunzip > loader.js;
-							
-							phantomjs loader.js PRE_SHARED_KEY BOT_NAME
+					<section>
+						<h2>PhantomJS Loader</h2>
+						<pre><code>
+curl http://HOST:PORT/app/bot/phantom | gunzip &gt; loader.js;
+
+phantomjs loader.js PRE_SHARED_KEY BOT_NAME
+						</code></pre>
 					</section>
 				</section>
 
