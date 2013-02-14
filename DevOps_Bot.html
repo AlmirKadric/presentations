@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>[Title here]</title>
+		<title>M.A.G.E Bot Module</title>
 
 		<meta name="description" content="[Description here]">
 		<meta name="author" content="[Author here]">
@@ -39,81 +39,225 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
+					# M.A.G.E Bot Module
+				</section>
+
+				<section>
+					<h2>What is it and why do we need it</h2>
+					<ol>
+						<li class="fragment">A bot is a game client which can execute a set of predefined behaviour driven user commands in an automated fashion.</li>
+						<li class="fragment">This allows us to repeat possible user action paths very quickly multiple times.</li>
+						<li class="fragment">And it saves us time in having to do these in a manual fashion, i.e. tapping on your iPhone screen.</li>
+					</ol>
+				</section>
+
+				<section>
+					<section data-markdown>
+						## How does it work
+					</section>
+					<section data-markdown>
+						### Bot User Management API
+						#### Function registration
+							exports.register('createBotPlayer', function (state, args, cb) {
+							});
+
+							exports.register('updateBotPlayer', function (state, args, cb) {
+							});
+
+							exports.register('confirmBotPlayer', function (state, args, cb) {
+							});
+					</section>
+					<section data-markdown>
+						### Game User Commands
+						#### How we currently do it
+							function setupUserCommands(cb) {
+								// SOME OTHER LOGIC
+								
+								app.commandCenter.expose(
+									{},	// no requirements
+									{
+										...
+									}
+								);
+								app.commandCenter.expose(
+									{ hooks: ['mage.session'] },
+									{
+										...
+									}
+								);
+							}
+					</section>
+					<section data-markdown>
+						### Game User Commands
+						#### What we need to change it to
+							function exposeGameUserCommands(app) {
+								app.commandCenter.expose(
+									{},	// no requirements
+									{
+										...
+									}
+								);
+								app.commandCenter.expose(
+									{ hooks: ['mage.session'] },
+									{
+										...
+									}
+								);
+							}
+							function setupUserCommands(cb) {
+								exposeGameUserCommands(app);
+							}
+					</section>
+					<section data-markdown>
+						### Game User Commands
+						#### Why do we need to change it
+							function setupBot(cb) {
+								logger.info('Setting up BOT interface');
+
+								// Register additional function and pages
+								require('./bot.js');
+
+								// Create bot API
+								mage.bot.createAPI(function (botApp) {
+									// Expose game user commands under botApp
+									exposeGameUserCommands(botApp);
+            					
+									// Expose app
+									botApp.expose(cb);
+								});
+							}
+					</section>
+					<section data-markdown>
+						### Scenario Registration
+							bot.addScenario('continueMissions', function (options, cb) {
+								// LOGIC
+							}, function () {
+								// CONDITION
+							}
+					</section>
+					<section data-markdown>
+						### BotPages
+							bot.addTestPage('botName', paths.www + '/botPages/botName');
+							bot.addTestPage('autoQuest', paths.www + '/botPages/autoQuest');
+					</section>
+					<section data-markdown>
+						### Scenario Execution
+						#### Define scenarios and options
+							var options = {options.delay: 0};
+
+							var scenarios = [
+								{name: 'continueMissions', delay: 0, repetitions: 5},
+								{name: 'healSurvivors', delay: 0, options: {}},
+								{name: 'cureSurvivors', delay: 0, options: {}},
+								{name: 'solveSurvivorProblems', delay: 0, options: {}}
+							];
+
+						#### Run Scenarios
+							// Single execution
+							bot.runScenarios(scenarios, options, cb);
+
+							// Repetition
+							bot.repeatScenarios(scenarios, options, function () {
+								// Loop exit condtion
+								// RETURN TRUE OR FALSE
+							}, cb);
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						## What do we give you
+					</section>
+					<section data-markdown>
+						### Bot User Management API
+							exports.register('startBotSession', function (state, args, cb) {
+								// PROVIDED
+							});
+
+							exports.register('endBotSession', function (state, args, cb) {
+								// PROVIDED
+							});
+					</section>
+					<section data-markdown>
+						### All Game User Commands
+							var mission = missions.getCurrentMission();
+							
+							missions.fightBoss(currentBoss, function (error, outcome) {
+							});
+							
+							missions.doMission(mission.id, function (error) {
+							});
+					</section>
+					<section data-markdown>
+						### Client Scenario API
+							bot.addScenario('continueMissions', function (options, cb) {
+								// LOGIC
+							}, function () {
+								// CONDITION
+							}
+
+							// Single execution
+							bot.runScenarios(scenarios, options, cb);
+
+							// Repetition
+							bot.repeatScenarios(scenarios, options, function () {
+								// Loop exit condtion
+								// RETURN TRUE OR FALSE
+							}, cb);
+					</section>
+					<section data-markdown>
+						### PhantomJS Loader
+							curl http://HOST:PORT/app/bot/phantom | gunzip > loader.js;
+							
+							phantomjs loader.js PRE_SHARED_KEY BOT_NAME
+					</section>
+				</section>
+
+				<section>
+					<h2>How to get started</h2>
+					<ol>
+						<li class="fragment">
+							Documentation
+							<ol>
+								<li class="fragment">mage/lib/modules/bot/README.md</li>
+								<li class="fragment">mage/lib/modules/bot/*</li>
+							</ol>
+						</li>
+						<li class="fragment">
+							DRS Example Bots
+							<ol>
+								<li class="fragment">lib/index.js</li>
+								<li class="fragment">lib/bot.js</li>
+								<li class="fragment">www/botPages/*</li>
+								<li class="fragment">www/botScenarios/*</li>
+							</ol>
+						</li>
+						<li class="fragment">You can always ask me</li>
+                                        </ol>
+				</section>
+
+				<section>
+					<h2>Some Current Use Cases</h2>
+					<ol>
+						<li class="fragment">Testing panopticon-sampler</li>
+						<li class="fragment">Testing observium mage application</li>
+						<li class="fragment">Testing GamePad2</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>Other Possible Use Cases</h2>
+					<ol>
+						<li class="fragment">Unit testing</li>
+						<li class="fragment">Load Testing</li>
+						<li class="fragment">Capacity planning</li>
+						<li class="fragment">Cute Demonstrations</li>
+						<li class="fragment">Headless NPC's</li>
+					</ol>
 				</section>
 
 				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						# M.A.G.E Bot
-					</script>
+					<a href="https://github.com/AlmirKadric/reveal.js/tree/my_presentations">https://github.com/AlmirKadric/reveal.js/tree/my_presentations</a>
 				</section>
 			</div>
 
