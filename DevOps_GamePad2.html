@@ -29,13 +29,11 @@
 	</head>
 
 	<body>
-
 		<div class="reveal">
-		
 			<header style="position:fixed">
-           		<img src="assets/logo.png" style="padding-left:50px;" />
-        	</header>
-        	
+				<img src="assets/logo.png" style="padding-left:50px;" />
+			</header>
+
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section data-markdown>
@@ -44,8 +42,13 @@
 
 				<section>
 					<h2>What is it</h2>
+					<br/>
 
-					<p class="fragment">GamePad2 is an in house developed production deployment tool</p>
+					<h2><ul>
+						<li class="fragment">Game Deployment</li>
+						<li class="fragment">Game Management</li>
+						<li class="fragment">Manage from single machine</li>
+					</ul></h2>
 				</section>
 
 				<section>
@@ -54,29 +57,44 @@
 					</section>
 					<section>
 						<h2>The Problems</h2>
+						<br/>
 
-						<ol>
-							<li class="fragment">We have no way to check if problems arise in production before showing it to our consumers.</li>
-							<li class="fragment">There has always been a slight downtime (~1-5m) when pushing as we have had to wait for processes to restart.</li>
-							<li class="fragment">Even when performing a rolling restart there is still a chance the load balancer will forward a request to a stopped machine.</li>
-							<li class="fragment">Rollbacks have proved to be a hassle in the past and usually don't work.</li>
-							<li class="fragment">The way we used git would cause a plethora of issues, which would cause bad / inconsistent code pushing.</li>
-							<li class="fragment">Lack of error detection would cause us to down a machine when doing a bad push, i.e. missing config etc.</li>
-							<li class="fragment">Lack of accessibility to team leaders and project managers.</li>
-							<li class="fragment">... And the list goes on ...</li>
-						</ol>
+						<h2><ol>
+							<li class="fragment">Cant check the game</li>
+							<li class="fragment">Always small downtime</li>
+							<li class="fragment">Cant Rollback</li>
+							<li class="fragment">Inconsistent Code</li>
+						</ol></h2>
 					</section>
 					<section>
-						<h2>So why do we need it:</h2>
+						<h2>More Problems</h2>
+						<br/>
 
-						<ol>
-							<li class="fragment">Ensure true zero downtime deployment.</li>
-							<li class="fragment">Ensure we can't perform a bad push.</li>
-							<li class="fragment">Ensure we can actually check the deployment as it is on production before our consumers do.</li>
-							<li class="fragment">Ensure we have a means to rollback quickly and easily.</li>
-							<li class="fragment">A means to provide access to team leaders and project managers.</li>
-							<li class="fragment">Ability to test a few possible versions with subsets of players, and test the waters before hard launching.</li>
-						</ol>
+						<h2><ol>
+							<li class="fragment">Never Checked Sanity</li>
+							<li class="fragment">Lack Of Accessibility</li>
+							<li class="fragment">... And the list goes on ...</li>
+						</ol></h2>
+					</section>
+					<section>
+						<h2>So why do we need it</h2>
+						<br/>
+
+						<h2><ol>
+							<li class="fragment">Zero Downtime Deployment</li>
+							<li class="fragment">Prevent Bad Pushing</li>
+							<li class="fragment">Check Before Publishing</li>
+							<li class="fragment">Rollback Quickly & Easily</li>
+						</ol></h2>
+					</section>
+					<section>
+						<h2>Some Extra Features</h2>
+						<br/>
+
+						<h2><ol>
+							<li class="fragment">Make Accessible</li>
+							<li class="fragment">Allow Soft Releases</li>
+						</ol></h2>
 					</section>
 				</section>
 
@@ -84,54 +102,49 @@
 					<section data-markdown>
 						## How do we achieve this?
 					</section>
-					<section>
-						<h2>Push first, publish later</h2>
-
-						<p class="fragment" style="text-align: left">Let's have the process up before we even perform the publication.</p>
-						<p class="fragment" style="text-align: left">Also let's check this candidate first, then we can swap it in once we're satisfied.</p>
+					<section data-markdown>
+						## Push first, publish later
+					</section data-markdown>
+					<section data-markdown>
+						## Make Operations Atomic
 					</section>
-					<section>
-						<h2>Ok how do we do this?</h2>
-						<h2>(Without downtime)</h2>
-
-						<p class="fragment" style="text-align: left">Let's Leverage File System Atomicity</p>
-						<p class="fragment" style="text-align: left">So we can use symlinks right?</p>
-						<p class="fragment" style="text-align: left">Damn, symlink updates aren't actually atomic &nbsp;&nbsp;&nbsp; =_=</p>
-						<p class="fragment" style="text-align: left">Wait a <i>'mv -T'</i> is atomic...</p>
-						<p class="fragment" style="text-align: left">Let's create a tmplink and <i>'mv -T'</i> it into place &nbsp;&nbsp;&nbsp; \ o /</p>
-					</section>
-					<section>
-						<h2>Fine, how do we access this?</h2>
-						<h2>(Before our consumers do)</h2>
-
-						<p class="fragment" style="text-align: left">X-Version Headers</p>
-						<p class="fragment" style="text-align: left">What do you mean?</p>
-						<p class="fragment" style="text-align: left">By providing the X-Version header with your request, you will look at that version folder instead of the current one</p>
-						<p class="fragment" style="text-align: left">That sounds tricky?</p>
-						<p class="fragment" style="text-align: left">We've actually put in place a proxy which will inject this header for you. So you really don't need to do anything for general use cases.</p>
+					<section data-markdown>
+						## Use Proxies For Access
 					</section>
 				</section>
 
 				<section>
 					<h2>What we expect from you</h2>
-					<h2>(Developers)</h2>
+					<h3>(Developers)</h3>
+					<br/>
 
-					<ol>
-						<li class="fragment">Tag all releases properly, GamePad2 will only work with tags</li>
-						<li class="fragment">Do not perform destructive data migrations, i.e. pushing of x.y.z version means we can't rollback</li>
-						<li class="fragment">Make game data versionable, i.e. make them JSON files and put them in the repository</li>
-					</ol>
+					<h2><ol>
+						<li class="fragment">Version Tags</li>
+						<li class="fragment">Must Be Rollback-able</li>
+						<li class="fragment">Version Static Data (JSON)</li>
+					</ol></h2>
 				</section>
 
 				<section>
-					<h2>When can we start to use it</h2>
+					<section>
+						<h2>When can we start to use it</h2>
+						<br/>
 
-					<ul>
-						<li class="fragment">Currently initial release is complete, and we are integrating it into Moria</li>
-						<li class="fragment">Next step would be to enable end user login and GamePad2 shell access</li>
-                                                <li class="fragment">We plan on writing up a WebUI some time in the future</li>
-						<li class="fragment">We will begin Jenkins integration once process is field tested</li>
-					</ul>
+						<h2><ul>
+							<li class="fragment">Initial release is complete</li>
+							<li class="fragment">Integrating into Moria</li>
+						</ul></h2>
+					</section>
+					<section>
+						<h2>What's next</h2>
+						<br/>
+
+						<h2><ul>
+							<li class="fragment">WebUI</li>
+							<li class="fragment">GamePad2 shell access</li>
+							<li class="fragment">Jenkins integration</li>
+						</ul></h2>
+					</section>
 				</section>
 
 				<section>
@@ -139,7 +152,7 @@
 				</section>
 
 				<section>
-					<a href="index.html">Index</a>
+					<a href="slides.html">Index</a>
 				</section>
 			</div>
 

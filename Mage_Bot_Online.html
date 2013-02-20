@@ -42,13 +42,11 @@
 
 				<section>
 					<h2>What is it and why do we need it</h2>
-					<br/>
-
-					<h2><ul>
-						<li class="fragment">Automated Player</li>
-						<li class="fragment">Extremely Fast testing</li>
-						<li class="fragment">Big Time Saver</li>
-					</ul></h2>
+					<ol>
+						<li class="fragment">A bot is a game client which can execute a set of predefined behaviour driven user commands in an automated fashion.</li>
+						<li class="fragment">This allows us to repeat possible user action paths very quickly multiple times.</li>
+						<li class="fragment">And it saves us time in having to do these in a manual fashion, i.e. tapping on your iPhone screen.</li>
+					</ol>
 				</section>
 
 				<section>
@@ -56,8 +54,8 @@
 						## How does it work
 					</section>
 					<section data-markdown>
-						## Bot User Management API
-						### Function registration
+						### Bot User Management API
+						#### Function registration
 							exports.register('createBotPlayer', function (state, args, cb) {
 							});
 
@@ -68,8 +66,8 @@
 							});
 					</section>
 					<section data-markdown>
-						## Game User Commands
-						### How we currently do it
+						### Game User Commands
+						#### How we currently do it
 							function setupUserCommands(cb) {
 								// SOME OTHER LOGIC
 								
@@ -88,8 +86,8 @@
 							}
 					</section>
 					<section data-markdown>
-						## Game User Commands
-						### What we need to change it to
+						### Game User Commands
+						#### What we need to change it to
 							function exposeGameUserCommands(app) {
 								app.commandCenter.expose(
 									{},	// no requirements
@@ -109,8 +107,8 @@
 							}
 					</section>
 					<section data-markdown>
-						## Game User Commands
-						### Why do we need to change it
+						### Game User Commands
+						#### Why do we need to change it
 							function setupBot(cb) {
 								logger.info('Setting up BOT interface');
 
@@ -128,7 +126,7 @@
 							}
 					</section>
 					<section data-markdown>
-						## Scenario Registration
+						### Scenario Registration
 							bot.addScenario('continueMissions', function (options, cb) {
 								// LOGIC
 							}, function () {
@@ -136,13 +134,13 @@
 							}
 					</section>
 					<section data-markdown>
-						## BotPages
+						### BotPages
 							bot.addBotPage('botName', paths.www + '/botPages/botName');
 							bot.addBotPage('autoQuest', paths.www + '/botPages/autoQuest');
 					</section>
 					<section data-markdown>
-						## Scenario Execution
-						### Define scenarios and options
+						### Scenario Execution
+						#### Define scenarios and options
 							var options = {options.delay: 0};
 
 							var scenarios = [
@@ -152,7 +150,7 @@
 								{name: 'solveSurvivorProblems', delay: 0, options: {}}
 							];
 
-						### Run Scenarios
+						#### Run Scenarios
 							// Single execution
 							bot.runScenarios(scenarios, options, cb);
 
@@ -169,7 +167,7 @@
 						## What do we give you
 					</section>
 					<section data-markdown>
-						## Bot User Management API
+						### Bot User Management API
 							exports.register('startBotSession', function (state, args, cb) {
 								// PROVIDED
 							});
@@ -179,7 +177,7 @@
 							});
 					</section>
 					<section data-markdown>
-						## All Game User Commands
+						### All Game User Commands
 							var mission = missions.getCurrentMission();
 							
 							missions.fightBoss(currentBoss, function (error, outcome) {
@@ -189,7 +187,7 @@
 							});
 					</section>
 					<section data-markdown>
-						## Client Scenario API
+						### Client Scenario API
 							bot.addScenario('continueMissions', function (options, cb) {
 								// LOGIC
 							}, function () {
@@ -217,37 +215,45 @@ phantomjs loader.js PRE_SHARED_KEY BOT_NAME
 
 				<section>
 					<h2>How to get started</h2>
-					<br/>
-
-					<h2><ol>
-						<li class="fragment">Documentation</li>
-						<li class="fragment">DRS Example Bots</li>
+					<ol>
+						<li class="fragment">
+							Documentation
+							<ol>
+								<li>mage/lib/modules/bot/README.md</li>
+								<li>mage/lib/modules/bot/*</li>
+							</ol>
+						</li>
+						<li class="fragment">
+							DRS Example Bots
+							<ol>
+								<li>lib/index.js</li>
+								<li>lib/bot.js</li>
+								<li>www/botPages/*</li>
+								<li>www/botScenarios/*</li>
+							</ol>
+						</li>
 						<li class="fragment">You can always ask me</li>
-					</ol></h2>
+					</ol>
 				</section>
 
 				<section>
 					<h2>Some Current Use Cases</h2>
-					<br/>
-
-					<h2><ol>
-						<li class="fragment">Panopticon-Sampler</li>
-						<li class="fragment">Observium Mage Application</li>
-						<li class="fragment">GamePad2</li>
-					</ol></h2>
+					<ol>
+						<li class="fragment">Testing panopticon-sampler</li>
+						<li class="fragment">Testing observium mage application</li>
+						<li class="fragment">Testing GamePad2</li>
+					</ol>
 				</section>
 
 				<section>
 					<h2>Other Possible Use Cases</h2>
-					<br/>
-
-					<h2><ol>
+					<ol>
 						<li class="fragment">Unit testing</li>
 						<li class="fragment">Load Testing</li>
 						<li class="fragment">Capacity planning</li>
 						<li class="fragment">Cute Demonstrations</li>
 						<li class="fragment">Headless NPC's</li>
-					</ol></h2>
+					</ol>
 				</section>
 
 				<section>
@@ -255,7 +261,7 @@ phantomjs loader.js PRE_SHARED_KEY BOT_NAME
 				</section>
 
 				<section>
-					<a href="slides.html">Index</a>
+					<a href="index.html">Index</a>
 				</section>
 			</div>
 
